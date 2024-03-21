@@ -7,50 +7,14 @@
 </head>
 <body>
     <h2>Janus Video Call</h2>
+    <h2>Local Video</h2>
+    <video id="localVideo" autoplay playsinline muted></video>
+    <h2>Remote Videos</h2>
+    <div id="remoteVideos"></div>
+   
     <!-- Include Janus JavaScript Library -->
     <script src="janus.js"></script>
-    <script>    
-    var server = null;
-    if(window.location.protocol === 'http:') {
-        server = "http://" + window.location.hostname + ":8088/janus";
-    }
-    else {
-        server = "https://" + window.location.hostname + ":8089/janus";
-    }
-
-   console.log(`SERVER: ${server}`);
-
-    var janus = null;
-
-    Janus.init({
-        debug: "all", 
-        callback: function() {
-            // Make sure the browser supports WebRTC
-            if(!Janus.isWebrtcSupported()) {
-                alert("No WebRTC support... ");
-                return;
-            }
-            // Create session
-            janus = new Janus(
-                {
-                    server: server,
-                    success: function() {
-                        // Session created successfully
-                        // Now attach to a plugin, e.g., VideoRoom
-                    },
-                    error: function(error) {
-                        Janus.error(error);
-                        alert(error, function() {
-                            window.location.reload();
-                        });
-                    },
-                    destroyed: function() {
-                        window.location.reload();
-                    }
-                });
-        }
-    });
-    </script>
+    <script src="app.js"></script>
 
 </html>
 
