@@ -12,3 +12,9 @@ via docker (or it it up as per your requirements)
 ```javascript
 npm start
 ```
+
+
+# Features
+- Video calling
+- Chat in progress with Data Channel (TODO) 
+- Remote Video (TODO)

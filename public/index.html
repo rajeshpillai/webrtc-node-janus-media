@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Janus Video Call</title>
-    <script src="http://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 </head>
 <body>
     <h2>Janus Video Call</h2>
@@ -11,6 +11,14 @@
     <video id="localVideo" autoplay playsinline muted></video>
     <h2>Remote Videos</h2>
     <div id="remoteVideos"></div>
+
+    <div id="chat">
+        <h3>Chat</h3>
+        <div id="chatArea"></div>
+        <input type="text" id="chatInput" placeholder="Type a message...">
+        <button id="sendChat">Send</button>
+    </div>
+    
    
     <!-- Include Janus JavaScript Library -->
     <script src="janus.js"></script>
