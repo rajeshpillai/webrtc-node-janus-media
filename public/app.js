@@ -67,19 +67,34 @@ Janus.init({
                             videoroom.handleRemoteJsep({ "jsep": jsep });
                         }
                     },
-                    onlocalstream: function(stream) {
-                        // Display our stream
-                        Janus.attachMediaStream(document.getElementById('localVideo'), stream);
-                        myStream = stream;
+                    onlocaltrack: function(track, on) {
+                        Janus.debug(" ::: Got a local track event :::");
+                        Janus.debug("Local track " + (on ? "added" : "removed") + ":", track);
+                        if(!on) {
+                            // Track removed, handle accordingly
+                            return;
+                        }
+                        if(!myStream) {
+                            myStream = new MediaStream();
+                        }
+                        myStream.addTrack(track);
+                        if(track.kind === "video") {
+                            Janus.attachMediaStream(document.getElementById('localVideo'), myStream);
+                        }
                     },
-                    onremotestream: function(stream) {
-                        // Display remote stream
+                    onremotetrack: function(track, mid, on) {
+                        Janus.debug(" ::: Got a remote track event ::: mid=" + mid + " on=" + on);
+                        if(!on) {
+                            // Track removed, handle accordingly
+                            return;
+                        }
                         let remoteVideo = document.createElement('video');
                         remoteVideo.autoplay = true;
                         remoteVideo.playsinline = true;
-                        remoteVideo.controls = true; // Add controls attribute if you want
                         document.getElementById('remoteVideos').appendChild(remoteVideo);
-                        Janus.attachMediaStream(remoteVideo, stream);
+                        let remoteStream = new MediaStream();
+                        remoteStream.addTrack(track);
+                        Janus.attachMediaStream(remoteVideo, remoteStream);
                     },
                     oncleanup: function() {
                         Janus.log("Cleaning up local stream...");
